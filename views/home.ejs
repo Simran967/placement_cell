@@ -1,0 +1,88 @@
+<link rel="stylesheet" href="/css/home.css">
+<h1><%= title %> Placement</h1>
+
+
+<div id="home-container">
+    <section id="feed-posts">
+        <!-- form to create student -->
+        <% if (locals.user){ %>
+            <form action="students/create" id="new-student-form" method="POST">
+                <span>Enroll Student</span>
+                <div class="row mt-2">
+                    <div class="col">
+                        <input type="text" class="form-control" placeholder="Name" name="name" aria-label="First name">
+                    </div>
+                    <div class="col">
+                        <input type="email" class="form-control" placeholder="E-mail" name="email" aria-label="E-mail">
+                    </div>
+                    <div class="col">
+                        <input type="number" class="form-control" placeholder="Age" name="age" aria-label="Age">
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control" placeholder="College" name="college" aria-label="College">
+                    </div>
+                    <div class="col">
+                        <select class="form-select" name="status" id="status">
+                            <option selected value="placed">Placed</option>
+                            <option selected value="not_placed">Not Placed</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mt-2 ">
+                    <div class="col">
+                        <input type="text" class="form-control" placeholder="Batch" name="batch" aria-label="Batch">
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control" placeholder="DSA Scores" name="dsa" aria-label="DSA">
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control" placeholder="NodeJS Scores" name="node_js" aria-label="NodeJS">
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control" placeholder="React Scores" name="react" aria-label="React">
+                    </div>
+                    
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </form>
+        <% } %>
+        <!-- populating student's data on screen -->
+        <div id="posts-list-container">
+            Student's Placement Status
+            <table class="table" id="students-table">
+                <thead>
+                    <tr>
+                        <th scope="col">Email</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Age</th>
+                        <th scope="col">College</th>
+                        <th scope="col">Placement Status</th>
+                        <% if (locals.user){ %>
+                            <th scope="col">Schedule Interview</th>
+                        <% } %>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for (student of students) {%>
+                        <tr id="post-<%= student._id %>"> 
+                            <td><%= student.email %></td>
+                            <td><%= student.name %></td>
+                            <td><%= student.age %></td>
+                            <td><%= student.college %></td>
+                            <td><%= student.status %></td>
+                            <% if(locals.user){ %>
+                                <th scope="row">
+                                    <!-- for scheduling interview calling interview action -->
+                                    <a href="/students/interview/<%= student.id %>">Click here</a>
+                                </th>
+                            <%} %>
+                        </tr>
+                    <%} %>
+                </tbody>
+            </table>
+        </div>
+
+    </section>
+</div>
